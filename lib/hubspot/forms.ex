@@ -1,4 +1,5 @@
 defmodule Hubspot.Forms do
+
   @doc """
   Submit data to a form.
 
@@ -9,14 +10,15 @@ defmodule Hubspot.Forms do
 
   ## Example
 
-      iex> Hubspot.Forms.submit(1234, "1234-abcd", [])
-      %Hubspot.HTTP.Request{endpoint: "https://forms.hubspot.com/uploads/form/v2/1234/1234-abcd",
-        method: :post, body: [], query: []}
+      iex> Hubspot.Forms.submit(1234, "1234-abcd", %{fields: []})
+      %Hubspot.HTTP.Request{endpoint: "https://api.hsforms.com/submissions/v3/integration/submit/1234/1234-abcd",
+        method: :post, body: %{fields: []}, query: [], headers: [{"Content-Type", "application/json"}]}
   """
-  def submit(portal_id, form_guid, form) do
+  def submit(portal_id, form_guid, %{fields: _fields}=form) do
     %Hubspot.HTTP.Request{
-      endpoint: "https://forms.hubspot.com/uploads/form/v2/#{portal_id}/#{form_guid}",
+      endpoint: "https://api.hsforms.com/submissions/v3/integration/submit/#{portal_id}/#{form_guid}",
       method: :post,
+      headers: [{"Content-Type", "application/json"}],
       body: form}
   end
 
